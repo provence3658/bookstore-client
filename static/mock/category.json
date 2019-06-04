@@ -1,0 +1,35 @@
+{
+  "status": 0,
+  "data": [
+    {
+      "id": 10001,
+      "name": "文学",
+      "parentId": 0
+    },
+    {
+      "id": 10002,
+      "name": "流行",
+      "parentId": 0
+    },
+    {
+      "id": 10003,
+      "name": "文化",
+      "parentId": 0
+    },
+    {
+      "id": 10004,
+      "name": "生活",
+      "parentId": 0
+    },
+    {
+      "id": 10005,
+      "name": "经管",
+      "parentId": 0
+    },
+    {
+      "id": 10006,
+      "name": "科技",
+      "parentId": 0
+    }
+  ]
+}
