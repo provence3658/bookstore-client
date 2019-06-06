@@ -107,7 +107,6 @@ export default {
       var validateResult = this.formValidate(formData)
       var _this = this
       if (validateResult.status) {
-        
         _user.updateUserInfo(formData,
         res => {
           _this.$message.success('更新成功');

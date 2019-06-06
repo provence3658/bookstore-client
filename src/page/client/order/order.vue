@@ -2,7 +2,7 @@
   <div class="order">
     <nav-default></nav-default>
     <div class="col-md-offset-2 col-md-8">
-      <table class="table">
+      <table class="table" v-show="!showNoBook">
         <tbody>
           <tr class="order-info header">
             <td class="cell-img">&nbsp;</td>
@@ -13,7 +13,11 @@
           </tr>
         </tbody>
       </table>
-      <table class="table" v-for="(order, index) in orderList" :key="index">
+      <table
+        class="table"
+        v-for="(order, index) in orderList"
+        :key="index"
+        v-show="!showNoBook">
         <tbody>
           <tr class="order-info">
             <td colspan="6">
@@ -29,13 +33,19 @@
           </tr>
           <tr class="order-content" v-for="(book, index) in order.orderItemVoList" :key="index">
             <td class="cell-img"><img :src="book.bookImage" width="80" height="100"></td>
-            <td class="cell-name">{{book.bookName}}</td>
+            <td class="cell-name link" @click="goToBookDetail(book.bookId)">{{book.bookName}}</td>
             <td class="cell-oneprice">￥{{book.onePrice}}</td>
             <td class="cell-quantity">{{book.quantity}}</td>
             <td class="cell-total">￥{{book.totalPrice}}</td>
           </tr>
         </tbody>
       </table>
+      <div class="noBook" v-show="showNoBook">
+        <div id="error" class="alert alert-warning">
+          <a href="#" class="close" data-dismiss="alert">&times;</a>
+          <strong>你未曾下单哦~</strong>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -47,7 +57,8 @@ import NavDefault from '@/page/components/nav.vue'
 export default {
   data () {
     return {
-      orderList: []
+      orderList: [],
+      showNoBook: true,
     }
   },
   components: {
@@ -59,15 +70,26 @@ export default {
   methods: {
     getOrderList () {
       var _this = this
+      $('#error').hide()
       _order.list(res=>{
-        console.log(res)
+        // console.log(res)
         _this.orderList = res.list
+        if (_this.orderList.length === 0) {
+          _this.showNoBook = true
+          $('#error').show()
+        } else {
+          _this.showNoBook = false
+        }
       }, err=>{
-        console.log(err)
+        // console.log(err)
+        _this.$message.error(err)
       })
     },
     goToOrderDetail (orderNo) {
       this.$router.push({path: '/order-detail', query: {orderNo: orderNo}})
+    },
+    goToBookDetail(id) {
+      this.$router.push({path:'/detail', query: {bookId: id}})
     }
   }
 }
@@ -83,12 +105,14 @@ export default {
   .order-info-text
     margin-right 25px
     color #999
-    &.link
-      cursor pointer
+  .link
+    cursor pointer
 .order-content
   background #fafafa
   td
     line-height 100px
+  .link
+    cursor pointer
 .cell-img
   width 15%
 .cell-name

@@ -68,7 +68,7 @@ export default {
           _this.receiverInfo = res.list[0]
         }
       },err=>{
-        alert(err)
+        _this.$message.error(err)
       })
     },
     goToPage (page) {
@@ -82,7 +82,7 @@ export default {
           _this.data = res
           _this.receiverInfo = res.list[0]
       },err=>{
-        alert(err)
+        _this.$message.error(err)
       })
     }
   }

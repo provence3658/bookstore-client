@@ -53,9 +53,9 @@ export default {
           passwordOld: _this.passwordOld,
           passwordNew: _this.passwordNew1
         },res=>{
-          this.$message.success('更新成功')
+          _this.$message.success('更新成功')
         },err=>{
-          this.$message.error(err)
+          _this.$message.error(err)
         })
         this.clearForm()
       }

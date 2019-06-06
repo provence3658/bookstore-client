@@ -29,7 +29,7 @@ export default {
           console.log(res)
         },
         err => {
-          alert(err)
+          _this.$message.error(err)
         }
       )
     },

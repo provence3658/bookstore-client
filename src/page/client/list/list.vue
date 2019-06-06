@@ -66,7 +66,7 @@ export default {
       _category.getCategoryName(id,res=>{
         _this.currentName = res
       },err=>{
-        alert(err)
+        _this.$message.error(err)
       })
       
       _book.getBookList({
@@ -75,7 +75,7 @@ export default {
           _this.data = res
         _this.bookList = res.list
       },err=>{
-        alert(err)
+        _this.$message.error(err)
       })
     },
     goToPage (page) {
@@ -89,7 +89,7 @@ export default {
           _this.data = res
           _this.bookList = res.list
       },err=>{
-        alert(err)
+        _this.$message.error(err)
       })
     }
   }

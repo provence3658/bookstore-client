@@ -40,7 +40,7 @@
             <input type="checkbox" @click="selectThisBook(cart.bookId, cart.bookCheckded)" :checked="cart.bookCheckded">
           </td>
           <td><img height="72px" width="60px" :src="cart.bookImage"></td>
-          <td class="line">{{cart.bookName}}</td>
+          <td class="line el-link" @click="goToBookDetail(cart.bookId)">{{cart.bookName}}</td>
           <td class="line">{{cart.bookPrice}}</td>
           <td class="line">
             <a class="update" @click="update(--cart.quantity, cart.bookId)">-</a>
@@ -125,7 +125,7 @@ export default {
       _cart.getCartList(res=>{
         _this.refresh(res)
       },err=>{
-        alert(err)
+        _this.$message.error(err)
       })
     },
     update (quantity, bookId) {
@@ -136,7 +136,7 @@ export default {
       },res=>{
         _this.refresh(res)
       },err=>{
-        alert(err)
+        _this.$message.error(err)
       })
     },
     deleteBook (bookId) {
@@ -144,7 +144,7 @@ export default {
       _cart.deleteBook(bookId,res=>{
         _this.refresh(res)
       },err=>{
-        alert(err)
+        _this.$message.error(err)
       })
     },
     selectThisBook (bookId, isChecked) {
@@ -153,13 +153,13 @@ export default {
         _cart.unselectBook(bookId,res=>{
           _this.refresh(res)
         },err=>{
-          alert(err)
+          _this.$message.error(err)
         })
       } else { //正选
         _cart.selectBook(bookId,res=>{
           _this.refresh(res)
         },err=>{
-          alert(err)
+          _this.$message.error(err)
         })
       }
     },
@@ -169,13 +169,13 @@ export default {
         _cart.unselectAllBook(res=>{
           _this.refresh(res)
         },err=>{
-          alert(err)
+          _this.$message.error(err)
         })
       } else { //全选
         _cart.selectAllBook(res=>{
           _this.refresh(res)
         },err=>{
-          alert(err)
+          _this.$message.error(err)
         })
       }
     },
@@ -191,7 +191,7 @@ export default {
       _cart.deleteBook(dels,res=>{
         _this.refresh(res)
       },err=>{
-        alert(err)
+        _this.$message.error(err)
       })
     },
     getShippingList () {
@@ -200,7 +200,7 @@ export default {
         console.log(res)
         _this.receiverList = res.list
       },err=>{
-        alert(err)
+        _this.$message.error(err)
       })
     },
     createOrder () {
@@ -229,8 +229,8 @@ export default {
     chooseShipping (id) {
       this.shippingId = id
     },
-    addNewReceiver () {
-      // _shipping.add
+    goToBookDetail(id) {
+      this.$router.push({path:'/detail', query: {bookId: id}})
     }
   }
 }

@@ -85,6 +85,7 @@ export default {
       dd:''
     }
   },
+  inject:['reload'],
   mounted () {
     this.getProvince()
   },
@@ -101,7 +102,7 @@ export default {
           },err=>{
             _this.$message.error(err)
           })
-        this.$router.go(0)
+        this.reload()
       } else {
         this.$message.error(validateResult.msg)
       }

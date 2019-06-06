@@ -4,9 +4,9 @@
     <div class="unpay col-md-offset-2 col-md-8" v-show="!payStatus">
       <div class="header">确认收货地址</div>
       <div class="shipping-content">
-        <p>{{shippingVo.receiverProvince}} {{shippingVo.receiverCity}}({{shippingVo.receiverName}}收)</p>
-        <p> {{shippingVo.receiverDistrict}} {{shippingVo.receiverAddress}}</p>
-        <p>{{shippingVo.receiverPhone}}</p>
+        <p>{{receiverTitle}}</p>
+        <p>{{receiverBody}}</p>
+        <p>{{receiverFoot}}</p>
       </div>
       <div class="header">确认订单信息</div>
       <div class="book-content">
@@ -50,6 +50,7 @@
         <p>订单编号：{{data.orderNo}}</p>
         <p>订单金额：{{data.payment}}元</p>
       </div>
+      <el-button size="small" @click="goToDetail">查看订单详情</el-button>
     </div>
   </div>
 </template>
@@ -87,7 +88,7 @@ export default {
           _this.orderItemVoList = res.orderItemVoList
         },
         err => {
-          alert(err)
+          _this.$message.error(err)
         }
       )
     },
@@ -100,7 +101,7 @@ export default {
           setInterval(this.queryPayStatus, 1000)
         },
         err => {
-          alert(err)
+          _this.$message.error(err)
         }
       )
     },
@@ -112,15 +113,44 @@ export default {
           _this.payStatus = res
         },
         err => {
-          alert(err)
+          _this.$message.error(err)
         }
       )
+    },
+    goToDetail () {
+      this.$router.push({path: '/order-detail', query: {orderNo: this.orderNo}})      
     }
   },
   beforeDestroy() {
     //清除定时器
     clearInterval(this.queryPayStatus);
     console.log("beforeDestroy");
+  },
+  computed: {
+    receiverTitle () {
+      if (this.shippingVo != null) {
+        return `${this.shippingVo.receiverProvince}
+        ${this.shippingVo.receiverCity}
+        (${this.shippingVo.receiverName}收)`
+      } else {
+        return ''
+      }
+    },
+    receiverBody () {
+      if (this.shippingVo != null) {
+        return `${this.shippingVo.receiverDistrict}
+        ${this.shippingVo.receiverAddress}`
+      } else {
+        return ''
+      }
+    },
+    receiverFoot () {
+      if (this.shippingVo != null) {
+        return `${this.shippingVo.receiverPhone}`
+      } else {
+        return ''
+      }
+    }
   }
 }
 </script>
@@ -138,6 +168,7 @@ export default {
     height 106px
     background url(../cart/mail_1.jpg) no-repeat
     margin-bottom 20px
+    font-size 12px
 
   .book-content
     .order-info
