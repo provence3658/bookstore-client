@@ -1,11 +1,11 @@
 <template>
   <div class="order">
     <nav-default></nav-default>
-    <div class="col-md-offset-2 col-md-8">
+    <div class="main col-md-offset-2 col-md-8">
       <table class="table" v-show="!showNoBook">
         <tbody>
           <tr class="order-info header">
-            <td class="cell-img">&nbsp;</td>
+            <td class="cemainll-img">&nbsp;</td>
             <td class="cell-name">商品信息</td>
             <td class="cell-oneprice">单价</td>
             <td class="cell-quantity">数量</td>
@@ -13,11 +13,7 @@
           </tr>
         </tbody>
       </table>
-      <table
-        class="table"
-        v-for="(order, index) in orderList"
-        :key="index"
-        v-show="!showNoBook">
+      <table class="table" v-for="(order, index) in orderList" :key="index" v-show="!showNoBook">
         <tbody>
           <tr class="order-info">
             <td colspan="6">
@@ -51,14 +47,14 @@
 </template>
 
 <script>
-var _order = require('@/service/order-service.js')
 import NavDefault from '@/page/components/nav.vue'
+var _order = require('@/service/order-service.js')
 
 export default {
   data () {
     return {
       orderList: [],
-      showNoBook: true,
+      showNoBook: true
     }
   },
   components: {
@@ -71,7 +67,7 @@ export default {
     getOrderList () {
       var _this = this
       $('#error').hide()
-      _order.list(res=>{
+      _order.list(res => {
         // console.log(res)
         _this.orderList = res.list
         if (_this.orderList.length === 0) {
@@ -80,47 +76,51 @@ export default {
         } else {
           _this.showNoBook = false
         }
-      }, err=>{
+      }, err => {
         // console.log(err)
         _this.$message.error(err)
       })
     },
     goToOrderDetail (orderNo) {
-      this.$router.push({path: '/order-detail', query: {orderNo: orderNo}})
+      this.$router.push({ path: '/order-detail', query: { orderNo: orderNo } })
     },
-    goToBookDetail(id) {
-      this.$router.push({path:'/detail', query: {bookId: id}})
+    goToBookDetail (id) {
+      this.$router.push({ path: '/detail', query: { bookId: id } })
     }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-.order-info
-  background #eee
-  padding 10px
-  &.header
-    td
-      font-weight bold
-  .order-info-text
-    margin-right 25px
-    color #999
-  .link
-    cursor pointer
-.order-content
-  background #fafafa
-  td
-    line-height 100px
-  .link
-    cursor pointer
-.cell-img
-  width 15%
-.cell-name
-  width 35%
-.cell-oneprice
-  width 20%
-.cell-quantity
-  width 15%
-.cell-total
-  width 15%
+.order
+  .main
+    background #fff
+    padding 20px
+    .order-info
+      background #eee
+      padding 10px
+      &.header
+        td
+          font-weight bold
+      .order-info-text
+        margin-right 25px
+        color #999
+      .link
+        cursor pointer
+    .order-content
+      background #fafafa
+      td
+        line-height 100px
+      .link
+        cursor pointer
+    .cell-img
+      width 15%
+    .cell-name
+      width 35%
+    .cell-oneprice
+      width 20%
+    .cell-quantity
+      width 15%
+    .cell-total
+      width 15%
 </style>

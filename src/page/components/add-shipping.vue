@@ -18,40 +18,20 @@
               </el-form-item>
               <el-form-item label="所在地区">
                 <el-col :span="5">
-                  <el-select
-                    @change="changeProvince"
-                    v-model="newShipping.receiverProvince"
-                    placeholder="省">
-                    <el-option
-                      v-for="(item, index) in province"
-                      :key="index"
-                      :label="item.name"
-                      :value="item.name"></el-option>
+                  <el-select @change="changeProvince" v-model="newShipping.receiverProvince" placeholder="省">
+                    <el-option v-for="(item, index) in province" :key="index" :label="item.name" :value="item.name"></el-option>
                   </el-select>
                 </el-col>
                 <el-col class="line" :span="2">-</el-col>
                 <el-col :span="5">
-                  <el-select
-                    @change="changeCity"
-                    v-model="newShipping.receiverCity"
-                    placeholder="市">
-                    <el-option
-                      v-for="(item, index) in city"
-                      :key="index"
-                      :label="item.name"
-                      :value="item.name"></el-option>
+                  <el-select @change="changeCity" v-model="newShipping.receiverCity" placeholder="市">
+                    <el-option v-for="(item, index) in city" :key="index" :label="item.name" :value="item.name"></el-option>
                   </el-select>
                 </el-col>
                 <el-col class="line" :span="2">-</el-col>
                 <el-col :span="5">
-                  <el-select
-                    v-model="dd"
-                    placeholder="区">
-                    <el-option
-                      v-for="(item, index) in district"
-                      :key="index"
-                      :label="item"
-                      :value="item"></el-option>
+                  <el-select v-model="dd" placeholder="区">
+                    <el-option v-for="(item, index) in district" :key="index" :label="item" :value="item"></el-option>
                   </el-select>
                 </el-col>
               </el-form-item>
@@ -61,8 +41,8 @@
             </el-form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            <button type="button" class="btn btn-primary" @click="addShipping()">添加</button>
+            <el-button data-dismiss="modal">取消</el-button>
+            <el-button @click="addShipping()" type="primary" data-dismiss="modal">添加</el-button>
           </div>
         </div>
       </div>
@@ -71,7 +51,7 @@
 </template>
 
 <script>
-var _shipping = require("@/service/shipping-service.js")
+var _shipping = require('@/service/shipping-service.js')
 var _util = require('@/common/js/util.js')
 
 export default {
@@ -80,12 +60,12 @@ export default {
     return {
       newShipping: {},
       province: [],
-      city:[],
-      district:[],
-      dd:''
+      city: [],
+      district: [],
+      dd: ''
     }
   },
-  inject:['reload'],
+  inject: ['reload'],
   mounted () {
     this.getProvince()
   },
@@ -96,10 +76,10 @@ export default {
       var validateResult = this.formValidate(this.newShipping)
       if (validateResult.status) {
         _shipping.addShiping(this.newShipping,
-          res=>{
-            console.log(res)
+          res => {
+            // console.log(res)
             _this.$message.success('添加地址成功！')
-          },err=>{
+          }, err => {
             _this.$message.error(err)
           })
         this.reload()
@@ -111,10 +91,10 @@ export default {
       this.$axios.get('/static/mock/city.json').then(this.getCityInfoSucc)
     },
     getCityInfoSucc (res) {
-      console.log(res.data)
+      // console.log(res.data)
       this.province = res.data
     },
-    changeProvince() {
+    changeProvince () {
       var _this = this
       this.city = []
       this.newShipping.receiverCity = ''
@@ -122,18 +102,18 @@ export default {
         if (i.name === this.newShipping.receiverProvince) {
           _this.city = i.city
         }
-      });
+      })
     },
-    changeCity() {
+    changeCity () {
       var _this = this
       this.district = []
       // this.newShipping.receiverDistrict = ''
-      this.dd=''
+      this.dd = ''
       this.city.forEach(i => {
         if (i.name === this.newShipping.receiverCity) {
           _this.district = i.area
         }
-      });
+      })
     },
     formValidate (formData) {
       var res = {

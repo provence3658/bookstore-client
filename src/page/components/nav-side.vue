@@ -1,32 +1,38 @@
 <template>
-  <div class="col-xs-2 col-md-offset-1">
-    <ul class="nav nav-pills nav-stacked">
-      <li :class="page === 'user-center' ? 'active' : ''"><router-link to="/user-center">个人信息</router-link></li>
-      <li :class="page === 'change-pass' ? 'active' : ''"><router-link to="/change-pass">修改密码</router-link></li>
-      <li :class="page === 'shipping' ? 'active' : ''"><router-link to="/shipping">收货地址</router-link></li>
-    </ul>
-  </div>
+  <el-menu :default-active="page" class="el-menu-vertical-demo">
+    <el-menu-item index="user-center" @click="goToPage('/user-center')">
+      <i class="el-icon-menu"></i>
+      <span slot="title">个人信息</span>
+    </el-menu-item>
+    <el-menu-item index="change-pass" @click="goToPage('/change-pass')">
+      <i class="el-icon-document"></i>
+      <span slot="title">修改密码</span>
+    </el-menu-item>
+    <el-menu-item index="shipping" @click="goToPage('/shipping')">
+      <i class="el-icon-setting"></i>
+      <span slot="title">收货地址</span>
+    </el-menu-item>
+  </el-menu>
 </template>
 
-
 <script>
-  export default {
-    props: {
-      page:{
-        type: String,
-        default:''
-      }
-    },
-    mounted() {
-      console.log(this.page)
+export default {
+  props: {
+    page: {
+      type: String,
+      default: ''
+    }
+  },
+  methods: {
+    goToPage (page) {
+      this.$router.push({ path: page })
+      // console.log(this.$route.path)
     }
   }
+}
 </script>
 
 <style lang="stylus" scoped>
-.logo
-  .title
-    font-size 20px
-    font-weight bold
+.el-menu
+  border none
 </style>
-

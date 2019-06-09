@@ -7,10 +7,10 @@
           <p class="text-center">阅读是一种生活习惯</p>
         </el-form-item>
         <el-form-item>
-          <el-input placeholder="用户名" v-model="user.username"></el-input>
+          <el-input placeholder="用户名" v-model="user.username" @keyup.enter.native="login"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input placeholder="密码" v-model="user.password" show-password></el-input>
+          <el-input placeholder="密码" v-model="user.password" @keyup.enter.native="login" show-password></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="login">登录</el-button>
@@ -46,14 +46,14 @@ export default {
       var validateResult = this.formValidate(formData)
       if (validateResult.status) {
         _user.login(
-          formData,res=>{
-          _this.$router.push({path: '/', replace: true})
-        },err=>{
-          _this.$message.error(err)
-        })
+          formData, res => {
+            _this.$router.push({ path: '/', replace: true })
+          }, err => {
+            _this.$message.error(err)
+          })
       } else {
         this.$message.error(validateResult.msg)
-      }  
+      }
     },
     formValidate (formData) {
       var res = {
@@ -72,9 +72,8 @@ export default {
       return res
     }
   }
-};
+}
 </script>
-
 
 <style lang="stylus" scoped>
 .login-wrapper
@@ -83,19 +82,20 @@ export default {
   justify-content center
   .login
     margin-top 80px
-    width: 460px;
-    height: 400px;
-    border: 1px solid #eaeaea;
-    box-shadow: 0 0 25px #cac6c6;
+    width 460px
+    height 400px
+    border 1px solid #eaeaea
+    box-shadow 0 0 25px #cac6c6
+    background #fff
     .el-form
-      margin: 30px 80px auto;
+      margin 30px 80px auto
       .el-form-item
         width 300px
         position relative
         .title
-          text-align: center;
+          text-align center
           font-weight bold
-          color: #505458;
+          color #505458
         .text-center
           margin-bottom 0
         .el-button
@@ -106,4 +106,3 @@ export default {
           right 0
           text-decoration none
 </style>
-

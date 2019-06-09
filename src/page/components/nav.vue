@@ -1,93 +1,59 @@
 <template>
-  <div class="nav">
-    <nav class="navbar navbar-default my-nav">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">导航栏</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">BookStore</a>
+  <el-container>
+    <el-header>
+      <el-row :gutter="20">
+        <el-col :span="4">
+          <router-link tag="div" class="logo" to="/">
+            <i class="el-icon-reading"></i>
+            BookStore
+          </router-link>
+        </el-col>
+        <el-col :span="4">
+          <el-input placeholder="请输入内容" prefix-icon="el-icon-search" v-model="keyword" @keyup.enter.native="search">
+          </el-input>
+        </el-col>
+        <div class="header-right">
+          <div v-show="this.status===0">
+            <router-link class="link" to="/order">
+              <i class="el-icon-document"></i>订单
+            </router-link>
+            <router-link class="link" to="/cart">
+              <i class="el-icon-shopping-cart-1"></i>购物车
+            </router-link>
+            <el-dropdown>
+              <span class="el-dropdown-link">
+                <i class="el-icon-s-custom"></i>{{username}}
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item @click.native="goToUserCenter">个人中心</el-dropdown-item>
+                <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
+          <div v-show="this.status===1">
+            <router-link class="link" to="/login">
+              登录
+            </router-link>
+            <router-link class="link" to="/register">
+              注册
+            </router-link>
+          </div>
         </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li>
-              <router-link to="/">
-                <span class="glyphicon glyphicon-home"></span> 首页
-              </router-link>
-            </li>
-          </ul>
-          <form class="navbar-form navbar-left">
-            <div class="form-group has-feedback">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="搜索"
-                v-model="keyword"
-                v-on:keyup.enter="search">
-              <span class="glyphicon glyphicon-search form-control-feedback"></span>
-            </div>
-          </form>
-          <ul class="nav navbar-nav navbar-right" v-show="this.status===1">
-            <li>
-              <router-link to="login">
-                登录
-              </router-link>
-            </li>
-            <li style="display:block;padding:13px 0;" class="text-muted">|</li>
-            <li>
-              <router-link to="register">
-                注册
-              </router-link>
-            </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right" v-show="this.status===0">
-            <li>
-              <router-link to="/order">
-                <span class="glyphicon glyphicon-list-alt"></span> 订单
-              </router-link>
-            </li>
-            <li>
-              <router-link to="cart">
-                <span class="glyphicon glyphicon-shopping-cart"></span> 购物车
-              </router-link>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle"
-                data-toggle="dropdown" role="button"
-                aria-haspopup="true" aria-expanded="false">
-                {{username}}
-              </a>
-              <ul class=" dropdown-menu" style="min-width:100%;">
-                <li>
-                  <router-link to="/user-center">
-                    <span class="glyphicon glyphicon-user"></span>个人中心
-                  </router-link>
-                </li>
-                <li>
-                  <a @click="logout()">
-                    <span class="glyphicon glyphicon-log-out"></span>退出
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </div>
+      </el-row>
+    </el-header>
+  </el-container>
 </template>
 
 <script>
 var _user = require('@/service/user-service.js')
 export default {
+  inject: ['reload'],
   data () {
     return {
       status: 1,
       username: '',
-      keyword:''
+      keyword: ''
     }
   },
   mounted () {
@@ -115,23 +81,52 @@ export default {
     },
     logout () {
       var _this = this
-      _user.logout(res=>{
-        alert('你已退出登录，即将返回首页')
-        _this.$router.push({path: '/', replace: true})
-      }, err=>{
+      _user.logout(res => {
+        _this.reload()
+      }, err => {
         alert(err)
       })
     },
-    search() {
+    search () {
       console.log(this.keyword)
-      this.$router.push({path:'/search', query: {'keyword': this.keyword}})
+      this.$router.push({ path: '/search', query: { 'keyword': this.keyword } })
+    },
+    goToUserCenter () {
+      this.$router.push({ path: '/user-center' })
     }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-.my-nav
-  background-color #fff
-  color #666
+.el-header
+  font-size 22px
+  color #fff
+  background #866ec7
+  height 60px
+  line-height 60px
+  position relative
+  .logo
+    padding 0 0 0 20px
+    .link
+      font-size 16px
+      color #ffffff
+      margin-left 20px
+      text-decoration none
+  .search
+    width 200px
+  .header-right
+    position absolute
+    right 10px
+    font-size 16px
+    .link
+      color #ffffff
+      margin-right 20px
+      text-decoration none
+    .el-dropdown-link
+      font-size 16px
+      color #fff
+      cursor pointer
+  .el-icon-arrow-down
+    font-size 12px
 </style>

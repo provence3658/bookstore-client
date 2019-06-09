@@ -1,10 +1,10 @@
 <template>
   <div class="category">
-    <ul class="nav nav-pills nav-stacked">
-      <li v-for="item in categoryList" :key="item.id" :class="current(item.id)">
-        <a @click="goToList(item.id)">{{item.name}}</a>
-      </li>
-    </ul>
+    <el-menu class="el-menu-vertical-demo">
+      <el-menu-item v-for="item in categoryList" :key="item.id" @click="goToList(item.id)">
+        <span slot="title">{{item.name}}</span>
+      </el-menu-item>
+    </el-menu>
   </div>
 </template>
 
@@ -34,12 +34,12 @@ export default {
       )
     },
     goToList (id) {
-      this.$router.push({path: '/list', query: {categoryId: id}})
+      this.$router.push({ path: '/list', query: { categoryId: id } })
       // console.log(id)
       this.currentId = id
-      this.$emit("categoryId", id)
+      this.$emit('categoryId', id)
     },
-    current(id) {
+    current (id) {
       this.currentId = this.$route.query.categoryId
       // console.log(current)
       // console.log(id)
@@ -55,7 +55,7 @@ export default {
 
 <style lang="stylus">
 .category
-  text-align center
-  cursor pointer
+  .el-menu
+    border none
+    text-align center
 </style>
-

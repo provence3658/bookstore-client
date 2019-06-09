@@ -1,15 +1,24 @@
 <template>
   <div class="hot-books">
-    <ul class="list-group">
-      <li class="list-group-item active">
-        <span class="glyphicon glyphicon-glass" aria-hidden="true"></span>
-        图书畅销榜
-      </li>
-      <li class="list-group-item">白夜行</li>
-      <li class="list-group-item">追风筝的人</li>
-      <li class="list-group-item">活着</li>
-      <li class="list-group-item">人间失格</li>
-      <li class="list-group-item">天才在左疯子在右</li>
-    </ul>
+    <el-card class="box-card" shadow="never">
+      <div slot="header" class="clearfix">
+        <i class="el-icon-trophy"></i>
+        <span>图书畅销榜</span>
+      </div>
+      <div class="text item">白夜行</div>
+      <div class="text item">追风筝的人</div>
+      <div class="text item">活着</div>
+      <div class="text item">人间失格</div>
+      <div class="text item">天才在左疯子在右</div>
+    </el-card>
   </div>
 </template>
+
+<style lang="stylus" scoped>
+.box-card
+  border none
+  .clearfix
+    font-size 16px
+  .text
+    line-height 40px
+</style>

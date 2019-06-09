@@ -1,11 +1,6 @@
 <template>
   <div class="book">
-    <div
-      class="book-item"
-      v-for="book in this.books"
-      :key="book.id"
-      @click="goToDetail(book.id)"
-    >
+    <div class="book-item" v-for="book in this.books" :key="book.id" @click="goToDetail(book.id)">
       <img class="book-image" :src="book.image">
       <p class="book-text">{{book.name}}</p>
       <p class="book-text">{{book.author}}</p>
@@ -21,7 +16,7 @@ export default {
   },
   methods: {
     goToDetail (id) {
-      this.$router.push({path: '/detail', query: {bookId: id}})
+      this.$router.push({ path: '/detail', query: { bookId: id } })
     }
   }
 }
@@ -31,12 +26,13 @@ export default {
 .book
   .book-item
     display inline-block
-    margin 5px 10px
+    width 20%
+    text-align center
     .book-image
       height 120px
       width 100px
     .book-text
-      width 100px
+      width 100%
       padding 0 5px
       margin 5px 0
       overflow hidden

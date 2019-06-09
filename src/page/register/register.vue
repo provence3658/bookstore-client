@@ -56,14 +56,15 @@ export default {
       if (validateResult.status) {
         _user.register(
           formData,
-          res=>{
-          _this.$router.push({path: '/message', query:{type: 'register'}})
-        }, err=>{
-          _this.$message.error(err)
-        })
+          res => {
+            _this.$message.success('注册成功')
+            _this.$router.push({ path: '/login' })
+          }, err => {
+            _this.$message.error(err)
+          })
       } else {
         this.$message.error(validateResult.msg)
-      }  
+      }
     },
     formValidate (formData) {
       var res = {
@@ -100,19 +101,20 @@ export default {
   justify-content center
   .register
     margin-top 80px
-    width: 460px;
-    height: 525px;
-    border: 1px solid #eaeaea;
-    box-shadow: 0 0 25px #cac6c6;
+    width 460px
+    height 525px
+    border 1px solid #eaeaea
+    box-shadow 0 0 25px #cac6c6
+    background #fff
     .el-form
-      margin: 30px 80px auto;
+      margin 30px 80px auto
       .el-form-item
         width 300px
         position relative
         .title
-          text-align: center;
+          text-align center
           font-weight bold
-          color: #505458;
+          color #505458
         .text-center
           margin-bottom 0
         .el-button

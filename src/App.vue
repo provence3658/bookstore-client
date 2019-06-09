@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view v-if="isRouterAlive"/>
+    <router-view v-if="isRouterAlive" />
   </div>
 </template>
 
@@ -17,10 +17,10 @@ export default {
       isRouterAlive: true
     }
   },
-  methods:{
-    reload (){
+  methods: {
+    reload () {
       this.isRouterAlive = false
-      this.$nextTick(function(){
+      this.$nextTick(function () {
         this.isRouterAlive = true
       })
     }
@@ -29,4 +29,7 @@ export default {
 </script>
 
 <style>
+#app {
+  background-color: #f8f8f8;
+}
 </style>

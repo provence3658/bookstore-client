@@ -1,7 +1,7 @@
 <template>
   <div class="order-detail">
     <nav-default></nav-default>
-    <div class="panel col-md-offset-2 col-md-8">
+    <div class="main col-md-offset-2 col-md-8">
       <div class="panel-title">订单信息</div>
       <div class="panel-body">
         <div class="text-line">
@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <div class="panel col-md-offset-2 col-md-8">
+    <div class="main col-md-offset-2 col-md-8">
       <div class="panel-title">书籍清单</div>
       <div class="panel-body">
         <table class="table">
@@ -50,162 +50,132 @@
 </template>
 
 <script>
-import NavDefault from "@/page/components/nav.vue";
-var _order = require("@/service/order-service.js");
-import ORDER_TYPE from "@/common/js/const.js";
-// var ORDER_TYPE = require("@/common/js/const.js")
+import NavDefault from '@/page/components/nav.vue'
+var _order = require('@/service/order-service.js')
 
 export default {
-  inject:['reload'],
-  data() {
+  inject: ['reload'],
+  data () {
     return {
       orderNo: this.$route.query.orderNo,
       data: {},
       orderType: {
-        'CANCELED': 0, //已取消
-        'NO_PAY': 10, //未支付
-        'PAID': 20, //已支付
-        'SHIPPED': 40, //已发货
-        'ORDER_SUCCESS': 50, //订单完成
-        'ORDER_CLOSE': 60 //订单关闭
+        'CANCELED': 0, // 已取消
+        'NO_PAY': 10, // 未支付
+        'PAID': 20, // 已支付
+        'SHIPPED': 40, // 已发货
+        'ORDER_SUCCESS': 50, // 订单完成
+        'ORDER_CLOSE': 60 // 订单关闭
       }
-    };
+    }
   },
   components: {
     NavDefault
   },
-  mounted() {
-    this.getOrderDetail();
+  mounted () {
+    this.getOrderDetail()
   },
   methods: {
-    getOrderDetail() {
-      var _this = this;
+    getOrderDetail () {
+      var _this = this
       _order.detail(
         this.orderNo,
         res => {
           // console.log(res)
-          _this.data = res;
+          _this.data = res
         },
         err => {
           _this.$message.error(err)
         }
-      );
+      )
     },
-    goToPay(orderNo) {
-      this.$router.push({ path: "/pay", query: { orderNo: orderNo } });
+    goToPay (orderNo) {
+      this.$router.push({ path: '/pay', query: { orderNo: orderNo } })
     },
-    deleteOrder(orderNo) {
-      var _this = this;
+    deleteOrder (orderNo) {
+      var _this = this
       _order.cancel(
         this.orderNo,
         res => {
-          _this.$message.success(res);
+          _this.$message.success(res)
           _this.reload()
         },
         err => {
-          _this.$message.error(err);
+          _this.$message.error(err)
         }
-      );
+      )
     },
-    confirmOrder(orderNo) {
-      var _this = this;
+    confirmOrder (orderNo) {
+      var _this = this
       _order.confirm(
         this.orderNo,
         res => {
-          _this.$message.success(res);
+          _this.$message.success(res)
           _this.reload()
         },
         err => {
-          _this.$message.error(err);
+          _this.$message.error(err)
         }
-      );
+      )
     }
   },
   computed: {
-    receiverInfo() {
+    receiverInfo () {
       if (this.data != null) {
-        var shippingVo = this.data.shippingVo;
-        console.log(shippingVo);
+        var shippingVo = this.data.shippingVo
+        console.log(shippingVo)
         if (shippingVo != null) {
           return `${shippingVo.receiverProvince}
           ${shippingVo.receiverCity}
           ${shippingVo.receiverDistrict}
-          ${shippingVo.receiverAddress}`;
+          ${shippingVo.receiverAddress}`
         } else {
-          return "";
+          return ''
         }
       } else {
-        return "";
-      }
-    }
-  }
-};
-</script>
-
-<style lang="stylus" scoped>
-.order-detail {
-  .panel {
-    padding: 10px;
-    margin-bottom: 10px;
-    background: #fff;
-
-    .panel-title {
-      padding: 10px;
-      font-size: 14px;
-      border-bottom: 1px solid #eee;
-      color: #666;
-      font-weight: 700;
-    }
-
-    .panel-body {
-      padding: 10px 20px;
-
-      .text-line {
-        height: 30px;
-        line-height: 30px;
-
-        .text {
-          margin-right: 20px;
-        }
-      }
-
-      .order-header {
-        background: #eee;
-        padding: 10px;
-
-        td {
-          font-weight: bold;
-        }
-      }
-
-      .order-content {
-        background: #fafafa;
-
-        td {
-          line-height: 100px;
-        }
-
-        .cell-img {
-          width: 15%;
-        }
-
-        .cell-name {
-          width: 35%;
-        }
-
-        .cell-oneprice {
-          width: 20%;
-        }
-
-        .cell-quantity {
-          width: 15%;
-        }
-
-        .cell-total {
-          width: 15%;
-        }
+        return ''
       }
     }
   }
 }
+</script>
+
+<style lang="stylus" scoped>
+.order-detail
+  .main
+    padding 10px
+    margin-bottom 10px
+    background #fff
+    .panel-title
+      padding 10px
+      font-size 14px
+      border-bottom 1px solid #eee
+      color #666
+      font-weight 700
+    .panel-body
+      padding 10px 20px
+      .text-line
+        height 30px
+        line-height 30px
+        .text
+          margin-right 20px
+      .order-header
+        background #eee
+        padding 10px
+        td
+          font-weight bold
+      .order-content
+        background #fafafa
+        td
+          line-height 100px
+        .cell-img
+          width 15%
+        .cell-name
+          width 35%
+        .cell-oneprice
+          width 20%
+        .cell-quantity
+          width 15%
+        .cell-total
+          width 15%
 </style>

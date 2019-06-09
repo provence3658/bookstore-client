@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-var _mm = require('@/common/js/mm.js');
+var _mm = require('@/common/js/mm.js')
 
 var _order = {
   // 创建订单
@@ -12,7 +12,7 @@ var _order = {
       },
       success: resolve,
       error: reject
-    });
+    })
   },
   // 订单详情
   detail: function (orderNo, resolve, reject) {
@@ -23,7 +23,7 @@ var _order = {
       },
       success: resolve,
       error: reject
-    });
+    })
   },
   // 付款
   pay: function (orderNo, resolve, reject) {
@@ -51,7 +51,7 @@ var _order = {
       },
       success: resolve,
       error: reject
-    });
+    })
   },
   cancel: function (orderNo, resolve, reject) {
     _mm.request({
@@ -61,7 +61,7 @@ var _order = {
       },
       success: resolve,
       error: reject
-    });
+    })
   },
   confirm: function (orderNo, resolve, reject) {
     _mm.request({
@@ -71,7 +71,7 @@ var _order = {
       },
       success: resolve,
       error: reject
-    });
+    })
   }
 }
-module.exports = _order;
+module.exports = _order

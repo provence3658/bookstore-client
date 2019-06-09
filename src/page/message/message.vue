@@ -47,4 +47,3 @@ export default {
 .jumbotron
   display none
 </style>
-
